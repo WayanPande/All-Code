@@ -1,2 +1,4 @@
 *.exe
 xampp/
+/Java/tesNetbean/nbproject/private/
+/Java/tesNetbean/build/

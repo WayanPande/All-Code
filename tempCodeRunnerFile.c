@@ -1,2 +1,1 @@
-
-    printf("Selamat belajar %s \n", nama[0]);
+#include <sys/wait.h>
