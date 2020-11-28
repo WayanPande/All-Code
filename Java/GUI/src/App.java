@@ -5,6 +5,8 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
@@ -99,20 +101,24 @@ class Form {
         // Label buat kl pass ama retype pass ga sama, nanti dimunculin kata2
         JLabel RetypeFail = new JLabel();
         RetypeFail.setBounds(150, 230, 350, 20);
+        RetypeFail.setForeground(Color.RED);
         frame.add(RetypeFail);
 
         // Fungsi ketika tombol register ditekan
         tombol.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 JFrame notif = new JFrame();
-
+                // ubah data dari JPasswordField(char) jadi string
+                String pass = String.valueOf(tpassword.getPassword());
+                String rePass = String.valueOf(tRepassword.getPassword());
                 // mengecek apakah privacy policy sudah dipilih
                 if (term.isSelected()) {
-                    if (!tpassword.getText().equals(tRepassword.getText())) {
+                    if (!pass.equals(rePass)) {
                         RetypeFail.setText("Password do not match!");
                     } else {
+
                         FormRegistrasi tes = new FormRegistrasi(tnama.getText(), talamat.getText(), tusia.getText(),
-                                tusername.getText(), tpassword.getText());
+                                tusername.getText(), pass);
                         frame.dispose();
                     }
                 } else {
@@ -135,7 +141,8 @@ class SelamatDatang {
 
         // tampilan selamat datang
         JLabel tampillabel = new JLabel("Selamat Datang " + username);
-        tampillabel.setBounds(120, 75, 200, 105);
+        tampillabel.setBounds(90, 75, 200, 105);
+        tampillabel.setFont(new Font("verdana", Font.PLAIN, 18));
         framedashboard.add(tampillabel);
 
         framedashboard.setVisible(true);
@@ -155,7 +162,7 @@ class FormRegistrasi {
 
         // Label
         JLabel title = new JLabel("Form Registrasi");
-        title.setBounds(180, 5, 300, 30);
+        title.setBounds(170, 5, 300, 30);
         title.setFont(new Font("verdana", Font.PLAIN, 18));
         frame.add(title);
 
@@ -231,84 +238,26 @@ class FormRegistrasi {
 
 // class buat window login page
 class Login {
+
+    // konstruktor "default" atau jika blm ada yg register
     Login() {
-        JFrame login = new JFrame("Login Form");
-        login.setSize(400, 400);
-        login.setLayout(null);
-        login.setLocationRelativeTo(null);
-        login.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        JLabel title = new JLabel("LOGIN FORM");
-        title.setBounds(140, 5, 300, 30);
-        title.setFont(new Font("verdana", Font.PLAIN, 18));
-        login.add(title);
-
-        JTextField username = new JTextField();
-        username.setBounds(45, 70, 300, 40);
-        username.setFont(new Font("verdana", Font.PLAIN, 18));
-        login.add(username);
-
-        JLabel tUsername = new JLabel("Username");
-        tUsername.setBounds(45, 50, 70, 15);
-        login.add(tUsername);
-
-        JPasswordField password = new JPasswordField();
-        password.setBounds(45, 140, 300, 40);
-        password.setFont(new Font("verdana", Font.PLAIN, 18));
-        login.add(password);
-
-        JLabel tPassword = new JLabel("Password");
-        tPassword.setBounds(45, 120, 70, 15);
-        login.add(tPassword);
-
-        // Tombol registrasi
-        JButton regis = new JButton("Registrasi");
-        regis.setBounds(45, 330, 300, 30);
-        login.add(regis);
-
-        JButton masuk = new JButton("Login");
-        masuk.setBounds(45, 280, 300, 30);
-        login.add(masuk);
-
-        regis.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                login.dispose();
-                Form frame = new Form();
-                frame.input();
-            }
-        });
-
-        masuk.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                JFrame notif = new JFrame();
-                if (username.getText().equals("root")) {
-                    if (password.getText().equals("root")) {
-                        JOptionPane.showMessageDialog(notif, "Berhasil");
-                    } else {
-                        JOptionPane.showMessageDialog(notif, "Password salah");
-                    }
-                } else {
-                    if (password.getText().equals("root")) {
-                        JOptionPane.showMessageDialog(notif, "Username salah");
-                    } else {
-                        JOptionPane.showMessageDialog(notif, "Username dan Password salah");
-                    }
-                }
-            }
-        });
-        login.setVisible(true);
+        masuk("root", "root");
     }
 
+    // konstruktor jika sudah ada yang register
     Login(String userName, String passWord) {
+        masuk(userName, passWord);
+    }
+
+    void masuk(String userName, String passWord) {
         JFrame login = new JFrame("Login Form");
         login.setSize(400, 400);
         login.setLayout(null);
         login.setLocationRelativeTo(null);
         login.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        login.setVisible(true);
 
         JLabel title = new JLabel("LOGIN FORM");
-        title.setBounds(140, 5, 300, 30);
+        title.setBounds(125, 5, 300, 30);
         title.setFont(new Font("verdana", Font.PLAIN, 18));
         login.add(title);
 
@@ -352,25 +301,28 @@ class Login {
         masuk.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 JFrame notif = new JFrame();
+                // ubah data dari JPasswordField(char) jadi string
+                String pass = String.valueOf(password.getPassword());
                 // cek username sama atau gak, kl sama cek lagi passnya sama gak
                 if (username.getText().equals(userName)) {
-                    if (password.getText().equals(passWord)) {
-                        JOptionPane.showMessageDialog(notif, "Berhasil");
+                    if (pass.equals(passWord)) {
+                        JOptionPane.showMessageDialog(notif, "Login Successful!");
                         SelamatDatang masuk = new SelamatDatang(username.getText());
-
+                        login.dispose();
                     } else {
-                        JOptionPane.showMessageDialog(notif, "Password salah");
+                        JOptionPane.showMessageDialog(notif, "Wrong Password");
                     }
                 } else {
                     // cek passnya kl username udah gak sama
-                    if (password.getText().equals(passWord)) {
-                        JOptionPane.showMessageDialog(notif, "Username salah");
+                    if (pass.equals(passWord)) {
+                        JOptionPane.showMessageDialog(notif, "Wrong Username");
                     } else {
-                        JOptionPane.showMessageDialog(notif, "Username dan Password salah");
+                        JOptionPane.showMessageDialog(notif, "Username and Password is wrong");
                     }
                 }
             }
         });
+        login.setVisible(true);
     }
 }
 
