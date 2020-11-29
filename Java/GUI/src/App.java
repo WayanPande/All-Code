@@ -134,10 +134,11 @@ class SelamatDatang {
 
     SelamatDatang(String username) {
 
-        Frame framedashboard = new JFrame("Dashboard");
+        JFrame framedashboard = new JFrame("Dashboard");
         framedashboard.setSize(400, 300);
         framedashboard.setLayout(null);
         framedashboard.setLocationRelativeTo(null);
+        framedashboard.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         // tampilan selamat datang
         JLabel tampillabel = new JLabel("Selamat Datang " + username);
@@ -159,6 +160,7 @@ class FormRegistrasi {
         frame.setLayout(null);
         frame.setVisible(true);
         frame.setLocationRelativeTo(null);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         // Label
         JLabel title = new JLabel("Form Registrasi");
@@ -307,8 +309,8 @@ class Login {
                 if (username.getText().equals(userName)) {
                     if (pass.equals(passWord)) {
                         JOptionPane.showMessageDialog(notif, "Login Successful!");
-                        SelamatDatang masuk = new SelamatDatang(username.getText());
                         login.dispose();
+                        SelamatDatang masuk = new SelamatDatang(username.getText());
                     } else {
                         JOptionPane.showMessageDialog(notif, "Wrong Password");
                     }
