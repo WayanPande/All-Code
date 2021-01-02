@@ -1,149 +1,335 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package tesnetbean;
-
-/**
- *
- * @author Togami
- */
-
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JTextArea;
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+// class buat window ngisi form
 class Form {
 
-    public String kocak;
-
     void input() {
-        JFrame frame = new JFrame("Testing");
-
-        JLabel title = new JLabel("Form Registrasi");
-        title.setSize(300, 30);
-        title.setLocation(350, 5);
-        frame.add(title);
-
-        JLabel nama = new JLabel("Nama");
-        nama.setSize(100, 20);
-        nama.setLocation(30, 100);
-        frame.add(nama);
-
-        JTextField tnama = new JTextField();
-        tnama.setSize(100, 20);
-        tnama.setLocation(100, 100);
-        frame.add(tnama);
-
-        JLabel alamat = new JLabel("Alamat");
-        alamat.setSize(100, 20);
-        alamat.setLocation(30, 130);
-        frame.add(alamat);
-
-        JTextField talamat = new JTextField();
-        talamat.setSize(100, 20);
-        talamat.setLocation(100, 130);
-        frame.add(talamat);
-
-        JTextArea area = new JTextArea();
-        area.setBounds(250, 30, 300, 300);
-
-        JButton tombol = new JButton("sini");
-        tombol.setBounds(100, 200, 100, 30);
-
-        tombol.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                String data;
-
-                data = "Nama: " + tnama.getText() + "\nAlamat: " + talamat.getText();
-                area.setText(data);
-                area.setEditable(false);
-                kocak = tnama.getText();
-                Login frame = new Login();
-            }
-        });
-
-        frame.add(tombol);
-        frame.add(area);
-        frame.setSize(600, 400);
+        // Window isi form
+        JFrame frame = new JFrame("Form Registrasi");
+        frame.setSize(500, 400);
         frame.setLayout(null);
+        frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
+
+        // Title form registrasi
+        JLabel title = new JLabel("Form Registrasi");
+        title.setBounds(190, 5, 300, 30);
+        frame.add(title);
+
+        // Label nama
+        JLabel nama = new JLabel("Nama");
+        nama.setBounds(30, 60, 100, 20);
+        frame.add(nama);
+
+        // Text field untuk nama
+        JTextField tnama = new JTextField();
+        tnama.setBounds(150, 60, 200, 20);
+        frame.add(tnama);
+
+        // Label alamat
+        JLabel alamat = new JLabel("Alamat");
+        alamat.setBounds(30, 90, 100, 20);
+        frame.add(alamat);
+
+        // Text field alamat
+        JTextField talamat = new JTextField();
+        talamat.setBounds(150, 90, 200, 20);
+        frame.add(talamat);
+
+        // Label Usia
+        JLabel usia = new JLabel("Usia");
+        usia.setBounds(30, 120, 100, 20);
+        frame.add(usia);
+
+        // Text field untuk nama
+        JTextField tusia = new JTextField();
+        tusia.setBounds(150, 120, 200, 20);
+        frame.add(tusia);
+
+        // Label Username
+        JLabel username = new JLabel("Username");
+        username.setBounds(30, 150, 100, 20);
+        frame.add(username);
+
+        // Text field untuk username
+        JTextField tusername = new JTextField();
+        tusername.setBounds(150, 150, 200, 20);
+        frame.add(tusername);
+
+        // Label password
+        JLabel password = new JLabel("Password");
+        password.setBounds(30, 180, 100, 20);
+        frame.add(password);
+
+        // Text field password
+        JPasswordField tpassword = new JPasswordField();
+        tpassword.setBounds(150, 180, 200, 20);
+        frame.add(tpassword);
+
+        JLabel Repassword = new JLabel("Retype Password");
+        Repassword.setBounds(30, 210, 100, 20);
+        frame.add(Repassword);
+
+        // Text field retype password
+        JPasswordField tRepassword = new JPasswordField();
+        tRepassword.setBounds(150, 210, 200, 20);
+        frame.add(tRepassword);
+
+        // Label term & condition
+        JCheckBox term = new JCheckBox("Accept privacy policy and terms", false);
+        term.setBounds(150, 280, 350, 30);
+        frame.add(term);
+
+        // Tombol Submit
+        JButton tombol = new JButton("REGISTER");
+        tombol.setBounds(40, 325, 400, 30);
+        frame.add(tombol);
+
+        // Label buat kl pass ama retype pass ga sama, nanti dimunculin kata2
+        JLabel RetypeFail = new JLabel();
+        RetypeFail.setBounds(150, 230, 350, 20);
+        RetypeFail.setForeground(Color.RED);
+        frame.add(RetypeFail);
+
+        // Fungsi ketika tombol register ditekan
+        tombol.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                JFrame notif = new JFrame();
+                // ubah data dari JPasswordField(char) jadi string
+                String pass = String.valueOf(tpassword.getPassword());
+                String rePass = String.valueOf(tRepassword.getPassword());
+                // mengecek apakah privacy policy sudah dipilih
+                if (term.isSelected()) {
+                    if (!pass.equals(rePass)) {
+                        RetypeFail.setText("Password do not match!");
+                    } else {
+
+                        FormRegistrasi tes = new FormRegistrasi(tnama.getText(), talamat.getText(), tusia.getText(),
+                                tusername.getText(), pass);
+                        frame.dispose();
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(notif, "You need to accept our privacy policy and terms");
+                }
+            }
+        });
     }
+}
 
-    void form() {
-        JFrame frame2 = new JFrame("LOJIK");
-        frame2.setSize(600, 400);
-        frame2.setLayout(null);
-        frame2.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+// class penyambutan user
+class SelamatDatang {
 
-        frame2.setVisible(true);
+    SelamatDatang(String username) {
+
+        JFrame framedashboard = new JFrame("Dashboard");
+        framedashboard.setSize(400, 300);
+        framedashboard.setLayout(null);
+        framedashboard.setLocationRelativeTo(null);
+        framedashboard.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        // tampilan selamat datang
+        JLabel tampillabel = new JLabel("Selamat Datang " + username);
+        tampillabel.setBounds(90, 75, 200, 105);
+        tampillabel.setFont(new Font("verdana", Font.PLAIN, 18));
+        framedashboard.add(tampillabel);
+
+        framedashboard.setVisible(true);
     }
 
 }
 
-class Cek {
-    public String tes = "saya";
+// class buat nyetak form registrasi yg udah diinput user
+class FormRegistrasi {
+    FormRegistrasi(String Formnama, String Formalamat, String Formusia, String Formusername, String Formpassword) {
+        // Window untuk tampilan data form
+        JFrame frame = new JFrame("Form Registrasi");
+        frame.setSize(500, 400);
+        frame.setLayout(null);
+        frame.setVisible(true);
+        frame.setLocationRelativeTo(null);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        // Label
+        JLabel title = new JLabel("Form Registrasi");
+        title.setBounds(170, 5, 300, 30);
+        title.setFont(new Font("verdana", Font.PLAIN, 18));
+        frame.add(title);
+
+        // Label nama
+        JLabel nama = new JLabel("Nama");
+        nama.setBounds(30, 60, 100, 20);
+        frame.add(nama);
+
+        // Text field untuk nama
+        JTextField tnama = new JTextField(Formnama);
+        tnama.setBounds(150, 60, 200, 20);
+        tnama.setEditable(false);
+        frame.add(tnama);
+
+        // Label alamat
+        JLabel alamat = new JLabel("Alamat");
+        alamat.setBounds(30, 90, 100, 20);
+        frame.add(alamat);
+
+        // Text field alamat
+        JTextField talamat = new JTextField(Formalamat);
+        talamat.setBounds(150, 90, 200, 20);
+        talamat.setEditable(false);
+        frame.add(talamat);
+
+        // Label Usia
+        JLabel usia = new JLabel("Usia");
+        usia.setBounds(30, 120, 100, 20);
+        frame.add(usia);
+
+        // Text field untuk nama
+        JTextField tusia = new JTextField(Formusia);
+        tusia.setBounds(150, 120, 200, 20);
+        tusia.setEditable(false);
+        frame.add(tusia);
+
+        // Label Username
+        JLabel username = new JLabel("Username");
+        username.setBounds(30, 150, 100, 20);
+        frame.add(username);
+
+        // Text field untuk username
+        JTextField tusername = new JTextField(Formusername);
+        tusername.setBounds(150, 150, 200, 20);
+        tusername.setEditable(false);
+        frame.add(tusername);
+
+        // Label password
+        JLabel password = new JLabel("Password");
+        password.setBounds(30, 180, 100, 20);
+        frame.add(password);
+
+        // Text field password
+        JTextField tpassword = new JTextField(Formpassword);
+        tpassword.setBounds(150, 180, 200, 20);
+        tpassword.setEditable(false);
+        frame.add(tpassword);
+
+        // Tombol Login
+        JButton tLogin = new JButton("Login");
+        tLogin.setBounds(40, 280, 400, 30);
+        frame.add(tLogin);
+
+        // Fungsi ketika tombol login ditekan
+        tLogin.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                Login login = new Login(Formusername, Formpassword);
+                frame.dispose();
+            }
+        });
+    }
 }
 
-class Login extends Form {
+// class buat window login page
+class Login {
+
+    // konstruktor "default" atau jika blm ada yg register
     Login() {
-        JFrame login = new JFrame("LOJIK");
-        login.setSize(600, 400);
+        masuk("root", "root");
+    }
+
+    // konstruktor jika sudah ada yang register
+    Login(String userName, String passWord) {
+        masuk(userName, passWord);
+    }
+
+    void masuk(String userName, String passWord) {
+        JFrame login = new JFrame("Login Form");
+        login.setSize(400, 400);
         login.setLayout(null);
+        login.setLocationRelativeTo(null);
         login.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        JTextField talamat = new JTextField();
-        talamat.setSize(100, 20);
-        talamat.setLocation(100, 130);
-        login.add(talamat);
+        JLabel title = new JLabel("LOGIN FORM");
+        title.setBounds(125, 5, 300, 30);
+        title.setFont(new Font("verdana", Font.PLAIN, 18));
+        login.add(title);
 
-        login.setVisible(true);
+        JTextField username = new JTextField();
+        username.setBounds(45, 70, 300, 40);
+        username.setFont(new Font("verdana", Font.PLAIN, 18));
+        login.add(username);
+
+        JLabel tUsername = new JLabel("Username");
+        tUsername.setBounds(45, 50, 70, 15);
+        login.add(tUsername);
+
+        JPasswordField password = new JPasswordField();
+        password.setBounds(45, 140, 300, 40);
+        password.setFont(new Font("verdana", Font.PLAIN, 18));
+        login.add(password);
+
+        JLabel tPassword = new JLabel("Password");
+        tPassword.setBounds(45, 120, 70, 15);
+        login.add(tPassword);
+
         // Tombol registrasi
         JButton regis = new JButton("Registrasi");
-        regis.setBounds(230, 200, 100, 30);
+        regis.setBounds(45, 330, 300, 30);
         login.add(regis);
 
         JButton masuk = new JButton("Login");
-        masuk.setBounds(120, 200, 100, 30);
+        masuk.setBounds(45, 280, 300, 30);
         login.add(masuk);
 
+        // cek tombol registrasi ditekan, masuk ke form login
         regis.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                // login.dispose();
+                login.dispose();
                 Form frame = new Form();
                 frame.input();
             }
         });
-        masuk.addActionListener(this);
-        
+
+        // cek tombol login ditekan dan cek username
+        masuk.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-
-                if (e.getSource() == masuk) {
-                    if (talamat.getText() == "saya") {
-                    JOptionPane.showMessageDialog(this, "Login Successful");
+                JFrame notif = new JFrame();
+                // ubah data dari JPasswordField(char) jadi string
+                String pass = String.valueOf(password.getPassword());
+                // cek username sama atau gak, kl sama cek lagi passnya sama gak
+                if (username.getText().equals(userName)) {
+                    if (pass.equals(passWord)) {
+                        JOptionPane.showMessageDialog(notif, "Login Successful!");
+                        login.dispose();
+                        SelamatDatang masuk = new SelamatDatang(username.getText());
+                    } else {
+                        JOptionPane.showMessageDialog(notif, "Wrong Password");
+                    }
+                } else {
+                    // cek passnya kl username udah gak sama
+                    if (pass.equals(passWord)) {
+                        JOptionPane.showMessageDialog(notif, "Wrong Username");
+                    } else {
+                        JOptionPane.showMessageDialog(notif, "Username and Password is wrong");
+                    }
                 }
-                }
-
             }
-
+        });
+        login.setVisible(true);
     }
 }
 
-public class TesNetbean {
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
-        // TODO code application logic here
+public class App {
+    public static void main(String[] args) throws Exception {
         Login frame = new Login();
     }
-    
 }
